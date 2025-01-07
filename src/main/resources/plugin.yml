@@ -1,0 +1,11 @@
+name: Hotkey
+version: 1.0
+main: Thexiaoyu.keyCommand.Hotkey
+api-version: 1.13
+website: https://github.com/Thexiaoyuqaq/Hotkey
+
+commands:
+  hotkey:
+    description: 主命令
+    usage: /hotkey <list|reload>
+    permission: hotkey.admin

@@ -1,0 +1,26 @@
+messages:
+  prefix: "&6[快捷键] &r"
+  reload: "&a配置已重新加载！"
+  no_permission: "&c你没有权限执行此操作！"
+  cooldown: "&c请等待 {time} 秒后再使用！"
+  
+  condition:
+    has_permission: "&c你没有权限使用此快捷键！"
+    in_world: "&c此快捷键只能在 {world} 世界中使用！"
+    has_item: "&c你需要手持 {item} 才能使用此快捷键！"
+    exp_level: "&c需要 {level} 级经验等级！"
+    food_level: "&c需要饥饿度大于 {level}！"
+    gamemode: "&c游戏模式必须为 {gamemode}！"
+    time_between: "&c当前时间段暂不可以使用该快捷键！" # 自行添加吧，俩个变量 {start} {end}
+  
+  help:
+    title: "&6=== 快捷键插件帮助 ==="
+    list: "&e/hotkey list &f- 查看所有快捷键"
+    reload: "&e/hotkey reload &f- 重新加载配置"
+  
+  list:
+    title: "&6=== 快捷键列表 ==="
+    empty: "&c没有设置任何快捷键！"
+    format: "&e{hotkey}&f:"
+    command: "  &7- &f{command}"
+  
