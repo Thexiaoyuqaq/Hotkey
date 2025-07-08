@@ -1,124 +1,120 @@
-# 全局设置
 settings:
-  # 冷却时间设置
+  # 组合键超时时间（毫秒）
+  combo-timeout: 600
+  # 多次潜行检测超时时间（毫秒） 如果shift无法达到预设值，请调大这个
+  multi-sneak-timeout: 600
+  # 显示按键次数
+  show-sneak-count: true
+  sneak-count-actionbar: true
+  sneak-count-format: "&e按键次数: &a%count%"
+  sneak-count-sound: true
+  sneak-count-sound-type: BLOCK_NOTE_BLOCK_PLING
+  # 是否异步执行命令
+  async-commands: true
+  # 是否使用权限系统
+  use-permissions: true
+  # 清理间隔（秒）
+  cleanup-interval: 600
+
+  # 冷却设置
   cooldown:
-    enabled: true      # 是否启用冷却系统
-    global: 3          # 全局冷却时间(秒)
-    per_hotkey: true   # 是否允许每个快捷键单独设置冷却时间
+    enabled: true
+    show-actionbar: true
+    default: 3.0
 
-  # 特效设置
+  # 效果设置
   effects:
-    # 音效设置
     sound:
-      enabled: true    # 是否启用音效
-      type: ENTITY_EXPERIENCE_ORB_PICKUP  # 默认音效类型
-      volume: 1.0      # 音量(0.0-1.0)
-      pitch: 1.0       # 音调(0.5-2.0)
-    # 粒子效果设置
+      enabled: true
+      volume: 1.0
+      pitch: 1.0
+      type: ENTITY_EXPERIENCE_ORB_PICKUP
+
     particles:
-      enabled: true    # 是否启用粒子效果
-      type: VILLAGER_HAPPY  # 默认粒子类型
-      count: 10        # 粒子数量
-      spread: 0.5      # 粒子扩散范围
+      enabled: true
+      count: 10
+      spread: 0.5
+      type: VILLAGER_HAPPY
 
-  # 消息显示设置
+  # 消息设置
   messages:
-    actionbar: true    # 是否在动作栏显示消息
-    chat: true         # 是否在聊天栏显示消息
+    chat: true
+    actionbar: true
 
-  debug: false         # 调试模式(开发用)
-
-# 条件要求类型说明：
-# requirements 支持的条件类型：
-#   exp_level: 数值        - 需要达到指定经验等级
-#   food_level: 数值       - 需要达到指定饥饿值 (最大20)
-#   gamemode: 游戏模式      - 需要处于指定游戏模式 (SURVIVAL/CREATIVE/ADVENTURE/SPECTATOR)
-#   permission: 权限名      - 需要拥有指定权限
-#   has_item: 物品ID       - 背包中需要有指定物品
-#   in_world: 世界名        - 需要在指定世界中
-#   time_between: [开始,结束] - 服务器时间需要在指定范围内
-
-# 支持的按键组合说明：
-# shift_f      - Shift + F键 (切换副手)
-# shift_q      - Shift + Q键 (丢弃物品)
-# shift_left   - Shift + 左键点击
-# shift_right  - Shift + 右键点击
-# double_sneak - 双击Shift键
-
-# 快捷键配置
 hotkeys:
-  # Shift+F组合键配置示例
   shift_f:
-    enabled: true
+    enabled: true # 是否启用
+    require-sync: false # 是否需要同步
     commands:
-      - "spawn"
+      # [op] 管理员执行
+      # [cmd] 控制台指令
+      # 什么也不加 玩家执行
+      # 指令执行
+      - "say 我按下了 Shift+F!"
       - "[cmd]give %player% diamond 1"
-      - "effect give @p speed 30 1"
-    conditions: # 条件
-      permission: "hotkey.use.shift_f" # 权限
-      cooldown: 3 # 冷却时间(秒), 0表示无冷却, 覆盖全局冷却
-      requirements:
-        exp_level: 5        # 需要5级经验
-        food_level: 15      # 需要15点饥饿值
-        gamemode: SURVIVAL  # 必须在生存模式
+    conditions:
+      # 条件，可删可加
+      cooldown: 5.0 # 冷却
+      world: world # 世界
+      min-health: 10 # 最低需要血量
+      min-level: 5 # 嘴子需要等级
     effects:
-      sound: BLOCK_NOTE_BLOCK_PLING
-      message: "&a快速回城！"
+      sound: ENTITY_PLAYER_LEVELUP # 播放音效
+      particle: FIREWORKS_SPARK # 特效：烟花
+      message: "&a你使用了 Shift+F 热键!" # title消息
 
-  # Shift+Q组合键配置示例
-  shift_q:
-    enabled: true
-    commands:
-      - "kit tools"
-      - "[cmd]give %player% bread 16"
-    conditions: # 条件
-      permission: "hotkey.use.shift_q" # 权限
-      cooldown: 3 # 冷却时间(秒), 0表示无冷却, 覆盖全局冷却
-      requirements:
-        has_item: DIAMOND   # 背包中需要有钻石
-        in_world: "world"   # 必须在主世界中
-    effects:
-      sound: ENTITY_PLAYER_LEVELUP
-      message: "&a领取了新手工具包！"
-
-  # Shift+左键配置示例
   shift_left:
     enabled: true
     commands:
-      - "[cmd]tpall %player%"                     # 控制台将所有人传送到玩家
-    conditions: # 条件
-      permission: "hotkey.use.shift_left" # 权限
-      cooldown: 3 # 冷却时间(秒), 0表示无冷却, 覆盖全局冷却
-      requirements:
-        exp_level: 10                             # 需要10级经验
+      - "skill cast fireball"
+    conditions:
+      cooldown: 2.0
+      gamemode: SURVIVAL
     effects:
-      sound: ENTITY_ENDERMAN_TELEPORT
-      particle: PORTAL
-      message: "&6召集所有玩家！"
+      sound: ENTITY_BLAZE_SHOOT
+      particle: FLAME
+      message: "&c火球术!"
 
-  # Shift+右键配置示例
-  shift_right:
+  # 双击 Shift（按2次） （可自定义修改后面的123456789）
+  double_sneak_2:
     enabled: true
     commands:
-      - "sethome"                                 # 设置家
-      - "[cmd]title %player% title {\"text\":\"设置家成功\",\"color\":\"green\"}"
-    conditions: # 条件
-      permission: "hotkey.use.shift_right" # 权限
-      in_world: "world"                           # 必须在主世界中
+      - "say 我双击了 Shift!"
+      - "effect give %player% minecraft:speed 10 1"
+    conditions:
+      cooldown: 2.0
     effects:
-      sound: BLOCK_ANVIL_USE
-      particle: VILLAGER_HAPPY
-      message: "&a设置了一个新的家！"
+      sound: ENTITY_PLAYER_LEVELUP
+      particle: SPELL_INSTANT
+      message: "&a已2击shift！"
 
-  # 双击Shift配置示例
-  double_sneak:
+  shift_q:
     enabled: true
     commands:
-      - "fly"                                     # 切换飞行模式
-      - "[cmd]particle cloud %player% ~ ~1 ~ 1 1 1 0.1 50"
-    conditions: # 条件
-      permission: "hotkey.use.double_sneak" # 权限
+      - "effect give %player% minecraft:jump_boost 10 1"
+    conditions:
+      cooldown: 2.0
     effects:
-      sound: ENTITY_BAT_TAKEOFF
-      particle: CLOUD
-      message: "&b切换飞行模式！" 
+      sound: ENTITY_PLAYER_LEVELUP
+      particle: SPELL_INSTANT
+      message: "&a已按shift+q！"
+
+  # 四击 Shift（按4次）
+  double_sneak_4:
+    enabled: true
+    commands:
+      - "effect give %player% minecraft:levitation 5 1"
+    conditions:
+      cooldown: 2.0
+    effects:
+      sound: ENTITY_FIREWORK_ROCKET_LAUNCH
+      particle: FIREWORKS_SPARK
+      message: "&a已4击shift！"
+
+# 权限配置
+# hotkey.use.* 将允许所有热键
+permissions:
+  shift_f: "hotkey.premium.shift_f"
+  double_sneak_2: "hotkey.use.double_sneak_2"
+  double_sneak_3: "hotkey.vip.fly"
+  double_sneak_4: "hotkey.vip.elytra"
